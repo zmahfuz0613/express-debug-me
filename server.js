@@ -1,5 +1,4 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const logger = require('morgan')
 const PORT = process.env.PORT || 3000
 
@@ -33,11 +32,11 @@ app.get('/', (req, res) => {
     res.send("This is root!");
 });
 
-app.get('/users', async (req, res) => {
+app.get('/users', (req, res) => {
     res.json(users)
 })
 
-app.get('/users/:id', async (req, res) => {
+app.get('/user/:id', (req, res) => {
     const id = req.params.id
     const user = users.filter(user => user.id === id)[0]
     res.json(user)
@@ -49,7 +48,7 @@ app.post('/users', (req, res) => {
     res.json(users)
 })
 
-app.put('/users/:id', async (req, res) => {
+app.put('/users/:id', (req, res) => {
     const id = req.params.id
     const userIndex = users.findIndex(user => user.id === id)
     const user = { ...users[userIndex], ...req.body }
@@ -57,9 +56,9 @@ app.put('/users/:id', async (req, res) => {
     res.json(user)
 })
 
-app.delete('/users/:id', async (req, res) => {
+app.delete('/users/:id', (req, res) => {
     const id = req.params.id
     const userIndex = users.findIndex(user => user.id === id)
-    users.splice(userIndex, 1)
+    users.splice(userIndex, 1, user)
     res.json(users)
 })
