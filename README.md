@@ -9,6 +9,11 @@
 
 **Tips**
 
-- `console.log()` **everything!** e.g. `console.log(`Here is the user: ${user}`)`
+- `console.log()` **everything!**
+
+Example:
+```js
+console.log(`Here is the user: ${user}`)
+```
 
 ### Good luck!
