@@ -1,5 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
+const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 const PORT = process.env.PORT || 3000
 
 const app = express()
@@ -36,14 +38,15 @@ app.get('/users', (req, res) => {
     res.json(users)
 })
 
-app.get('/user/:id', (req, res) => {
+app.get('/users/:id', (req, res) => {
     const id = req.params.id
     const user = users.filter(user => user.id === id)[0]
     res.json(user)
 })
 
-app.post('/users', (req, res) => {
+app.post('/users', (req, res) => {    
     const user = req.body
+    user.id = uuidv4();
     users.push(user)
     res.json(users)
 })
@@ -52,6 +55,7 @@ app.put('/users/:id', (req, res) => {
     const id = req.params.id
     const userIndex = users.findIndex(user => user.id === id)
     const user = { ...users[userIndex], ...req.body }
+    user.id = id;    
     users.splice(userIndex, 1, user)
     res.json(user)
 })
@@ -59,8 +63,10 @@ app.put('/users/:id', (req, res) => {
 app.delete('/users/:id', (req, res) => {
     const id = req.params.id
     const userIndex = users.findIndex(user => user.id === id)
-    users.splice(userIndex, 1, user)
+    if(userIndex > -1){
+        users.splice(userIndex, 1);
+    }
     res.json(users)
 })
 
-// wop
+
